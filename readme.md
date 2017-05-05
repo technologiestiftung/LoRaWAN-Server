@@ -9,6 +9,7 @@ Our full tutorial can be found [here].
 ## Dependencies
 
 npm install --save express
+
 npm install --save ttn
 
 We assume a basic understanding of LoraWAN and TTN. You'll need an TTN account, register your node and enter the credentials in server.js
