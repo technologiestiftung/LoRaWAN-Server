@@ -2,7 +2,6 @@ let ttn = require('ttn'),
     express = require('express'),
     config = require(__dirname + "/config.json")
 
-
 // get these from your TTN console https://console.thethingsnetwork.org/
 var appId = 'ben';
 var accessKey = config.key;
@@ -23,10 +22,8 @@ ttn.data(appId, accessKey)
 let app = express()
 
 app.use("/", express.static(process.cwd()));
-// Add headers
-app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
+app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -41,13 +38,25 @@ app.get("/", function(req,res) {
 
 
 app.get("/api", function(req, res) {
-   //appId = req.query.appId;
-   //accessKey = req.query.accessKey;
+   appId = req.query.appId;
+   accessKey = req.query.accessKey;
 
-   res.send(jsonObj);
+   ttn.data(appId, accessKey)
+    .then(function(client) {
+        client.on("uplink", function (devID, payload) {
+            jsonObj = payload;
+            console.dir("Inside with " + payload)
+        })
+    })
+    .catch(function(err) {
+        console.error(err);
+    });
+    res.send(jsonObj);
+   //console.log("AppId is " + appId);
+   //res.send(jsonObj);
 });
 
 
-app.listen(3000, function () {
-  console.log('listening on port 3000!')
+app.listen(8080, function () {
+  console.log('listening on port 8080!')
 })

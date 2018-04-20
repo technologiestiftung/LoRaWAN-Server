@@ -1,9 +1,11 @@
 console.log("Controller initialized");
 
+
+
 var fetchApi = function (appId, accessKey) {
 
-//fetch("/api?appId=" + appId + "&accessKey=" + accessKey).then(function(response) {
-fetch("/api").then(function(response) {	
+fetch("/api?appId=" + appId + "&accessKey=" + accessKey).then(function(response) {
+	console.log("Fetching with " + appId + " and " + accessKey);
 	return response.json();
 })
 .then(function(data) {
@@ -11,21 +13,26 @@ fetch("/api").then(function(response) {
 	console.dir(data);
 
 	results.innerHTML = "<p>" + data.payload_fields.Temperatur  + "°</p>"
-/*
-	var newest = data.slices[data.slices.length-1];
-	var HTMLString = "<p>Verbrauch am " + data.timeToShow + "</p>";
 
-		HTMLString += "<p>District: " + data.district + "</p><p>Zuführung: " + newest.feed + "</p><p>Erzeugung: " + newest.generation + "</p>";
-		HTMLString += "<p>Großkunden: " + newest["key-acount-usage"] + "</p>";
-	
-		mountDiv.innerHTML = HTMLString;
-
-*/
+	var time = new Date(data.metadata.time);
+	console.log("Time is: " + time);
+	var hours = time.getHours();
+	var minutes = time.getMinutes();
+	var seconds = time.getSeconds();
+	deviceInfo.innerHTML = "<p>App: " + data.app_id + "</p><p>Device: " + data.dev_id + "</p><p>Letzte Messung: " + hours + ":" + minutes + ":" + seconds + "</p>"
 })
 .catch(function(err) { 
 	console.log(err)
 });
 }
 
-fetchApi("ben", "ttn-account-v2.VDfP2rHGJR0HJ4mjCPXU-KtrG5vWHOpIHmIBr0fH2Sg");
+function getFormData () {
+	var appId = document.getElementById("appID").value;
+	var key = document.getElementById("key").value;
+	
+	fetchApi(appId, key);
+} 
+
+
+//fetchApi("ben", "ttn-account-v2.VDfP2rHGJR0HJ4mjCPXU-KtrG5vWHOpIHmIBr0fH2Sg");
 
