@@ -4,42 +4,46 @@
     <meta charset="UTF-8">
     <title>LoRa-Temperatursensor</title>
     <style type="text/css">
+          body {
+
+            font-family: sans-serif;
+            background-color: #213A8F;
+            margin: 0;
+            padding: 0;
+          }
             #container{
-                width:200px;
-                height:200px;
+                position: relative;
+                top: 100px;
+                width:700px;
+                height:100px;
+                font-size: 2em;
+                color: white;
                 margin:auto;
                 text-align: center;
-                border: 2px solid;
-
             }
+            
             #results{
-              margin: auto;
-                font-size: 4em;
-                color: red;
-            }
-            svg text{
-                font-family: Helvetica, Arial, sans-serif;
-                font-size:10px;
-            }
+                position: relative;
+                top: -200px;
+                font-size: 6em;
+                color: #E60032
+            
       </style>
   </head>
   <body>
 
-    <form action="/api" method="post">
+    <!--form action="/api" method="post">
       <input type="text" id="App" value="AppID">
       <input type="text" id="Key" value="Key">
      <input type="submit" value="Daten abrufen">
-    </form>
+    </form-->
 
     <div id="container">
-      <p> Die Temperatur auf der Terasse beträgt: </p>
-      <div id="results"></div>
-      <p></p>
-    </div>
-
-
-  </div>
-
+      <p> Die Temperatur auf der Terrasse beträgt: </p>
+   
+      <div id="results">...</div>
+      </div> 
+    
 
 <script type="text/javascript" src="viewController.js"></script>   
 
