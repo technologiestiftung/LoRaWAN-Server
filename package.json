@@ -1,0 +1,25 @@
+{
+  "name": "lorawan-server",
+  "version": "1.0.0",
+  "description": "This is a rather basic Node.js setup for providing data through a web API via [TheThingsNetwork] (TTN).",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "ttn": "^2.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technologiestiftung/LoRaWAN-Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/technologiestiftung/LoRaWAN-Server/issues"
+  },
+  "homepage": "https://github.com/technologiestiftung/LoRaWAN-Server#readme"
+}

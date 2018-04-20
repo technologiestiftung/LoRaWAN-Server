@@ -1,62 +1,53 @@
-var ttn = require('ttn');
-var express = require('express');
-var app = express()
+let ttn = require('ttn'),
+    express = require('express'),
+    config = require(__dirname + "/config.json")
 
 
-/*** // get these from your TTN console https://console.thethingsnetwork.org/
-var region = '';
-var appId = '';
-var accessKey = '';
-*/
+// get these from your TTN console https://console.thethingsnetwork.org/
+var appId = 'ben';
+var accessKey = config.key;
 
 var jsonObj;
 
+ttn.data(appId, accessKey)
+    .then(function(client) {
+        client.on("uplink", function (devID, payload) {
+            jsonObj = payload;
+            console.dir(payload)
+        })
+    })
+    .catch(function(err) {
+        console.error(err);
+    })
 
-var client = new ttn.Client(region, appId, accessKey);
+let app = express()
 
-
+app.use("/", express.static(process.cwd()));
 // Add headers
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
 
-    // Pass to next layer of middleware
     next();
 });
+
+app.get("/", function(req,res) {
+  res.sendFile(process.cwd() + "/index.html");
+});
+
+
 app.get("/api", function(req, res) {
-    res.send(jsonObj);
+   //appId = req.query.appId;
+   //accessKey = req.query.accessKey;
+
+   res.send(jsonObj);
 });
 
 
-client.on('connect', function(connack) {
-    console.log('[DEBUG]', 'Connect:', connack);
-});
-
-client.on('error', function(err) {
-    console.error('[ERROR]', err.message);
-});
-
-client.on('activation', function(deviceId, data) {
-    console.log('[INFO] ', 'Activation:', deviceId, data);
-});
-
-client.on('message', function(deviceId, data) {
-    jsonObj = data;
-
-    console.log(jsonObj);
-});
-
-app.listen(8080, function () {
-  console.log('listening on port 8080!')
+app.listen(3000, function () {
+  console.log('listening on port 3000!')
 })
